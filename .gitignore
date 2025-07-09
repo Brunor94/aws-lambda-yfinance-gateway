@@ -32,6 +32,7 @@ venv.bak/
 
 # AWS Lambda specific
 package/
+layer/
 deployment.zip
 
 # IDE specific files
