@@ -1,39 +1,29 @@
-#!/usr/bin/env python3
+# local_test.py
 import json
 from lambda_function import lambda_handler
 
-def main():
-    """
-    Run the Lambda function locally with a test event
-    """
-    print("Running Lambda function locally...")
-    
-    # Load the test event
-    try:
-        with open('test_event.json', 'r') as f:
-            event = json.load(f)
-    except FileNotFoundError:
-        print("test_event.json not found, using default event")
-        event = {
-            "key1": "value1",
-            "key2": "value2"
-        }
-    
-    # Call the Lambda handler
-    response = lambda_handler(event, None)
-    
-    # Print the response
-    print("\nLambda Response:")
-    print(json.dumps(response, indent=2))
-    
-    # Parse and print the body for better readability
-    if 'body' in response:
-        try:
-            body = json.loads(response['body'])
-            print("\nParsed Response Body:")
-            print(json.dumps(body, indent=2))
-        except json.JSONDecodeError:
-            print("\nBody is not valid JSON:", response['body'])
+# 1. Define a mock 'event' object.
+# This simulates the input your Lambda would receive from API Gateway.
+# You can change the tickers here to test different stocks.
+mock_event = {"body": json.dumps({"tickers": ["OXY", "MSFT", "AAPL", "GOOGL"]})}
 
+# 2. Define a mock 'context' object.
+# Our function doesn't use this, but the handler signature requires it.
+# An empty object is fine.
+mock_context = {}
+
+# 3. Call your handler function directly.
 if __name__ == "__main__":
-    main()
+    print("--- Running local test ---")
+
+    # Call the handler from your other file
+    response = lambda_handler(mock_event, mock_context)
+
+    # 4. Pretty-print the response to see the results clearly.
+    print("\n--- Lambda Response ---")
+    if response and response.get("body"):
+        # The body is a JSON string, so we parse it to print it nicely
+        response_body = json.loads(response["body"])
+        print(json.dumps(response_body, indent=4))
+    else:
+        print("No response body found.")
