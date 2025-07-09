@@ -1,0 +1,9 @@
+# Python 3.9 specific requirements
+# No external dependencies required for this basic example
+# Add any required packages here, for example:
+# boto3==1.26.0
+# requests==2.28.1
+
+# The following are commented out as they're for reference only
+# pip-system requirements are not valid in requirements.txt
+# For Python 3.9 compatibility, use a virtual environment with Python 3.9
